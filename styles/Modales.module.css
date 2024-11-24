@@ -1,0 +1,20 @@
+.bloc{
+    height: 45vh;
+    width: 35vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.input{
+    height: 8vh;
+    width: 40vh;
+    font-family: 'Mont-heady';
+    color: white;
+    background-color: rgb(1, 28, 51);
+    margin: 20px;
+    margin-left: 250px;
+    border-radius: 25px;
+    padding-left: 35px;
+}
