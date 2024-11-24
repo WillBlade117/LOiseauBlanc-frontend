@@ -11,6 +11,10 @@ function Home() {
 
   return (
     <div className={styles.home}>
+      <div className={styles.profil}>profil</div>
+      <div className={styles.write}>write</div>
+      <div className={styles.tweet}>tweet</div>
+      <div className={styles.hashtag}>hashtag</div>
 
     </div>
   );
