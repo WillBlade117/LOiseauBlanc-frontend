@@ -37,14 +37,11 @@
 }
 
 .logoutbtn {
-    display: flex;
-    align-items: center;
     height: 20px;
     width: 25%;
     border: 1px solid white;
     color: white;
     font-family: "Mont-heady";
-    justify-content: center;
     border-radius: 30px;
     background-color: transparent;
     font-size: 13px;
