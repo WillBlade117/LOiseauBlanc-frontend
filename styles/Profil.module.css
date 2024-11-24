@@ -1,0 +1,53 @@
+.content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 6%;
+}
+
+.logo {
+    align-self: start;
+    transform: rotate(180deg);
+}
+
+.user {
+    display: flex;
+    flex-direction: row;
+}
+
+.profilphoto {
+    border-radius: 50%;
+}
+
+.pseudo {
+    margin-left: 5%;
+}
+
+.textbolder {
+    color: white;
+    font-family: "Mont-heady";
+    font-weight: bolder;
+    font-size: 15px;
+}
+
+.textpseudo {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.logoutbtn {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    width: 25%;
+    border: 1px solid white;
+    color: white;
+    font-family: "Mont-heady";
+    justify-content: center;
+    border-radius: 30px;
+    background-color: transparent;
+    font-size: 13px;
+    margin-top: 10%;
+    cursor: pointer;
+}
