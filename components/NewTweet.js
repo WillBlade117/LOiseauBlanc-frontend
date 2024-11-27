@@ -3,9 +3,26 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 function NewTweet() {
-    const user = useSelector((state) => state.user.value.username);
-    const firstname = useSelector((state) => state.user.value.firstname);
+    const token = useSelector((state) => state.user.value.token);
     const [newContent, setNewContent] = useState("");
+
+    const handleTweet = () => {
+        console.log(newContent)
+        fetch("http://localhost:3000/tweets", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                token: token,
+                content: newContent,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.result) {
+                    setNewContent("");
+                }
+            });
+    };
 
     return (
         <div className={styles.content}>
@@ -20,7 +37,7 @@ function NewTweet() {
             />
             <div className={styles.buttonbox}>
                 <div>{newContent.length}/280</div>
-                <button className={styles.button}>Tweet</button>
+                <button onClick={() => handleTweet()} className={styles.button}>Tweet</button>
             </div>
         </div>
     )
