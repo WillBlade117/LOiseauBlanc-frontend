@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 function NewTweet() {
-    const token = useSelector((state) => state.user.value.token);
+    const user = useSelector((state) => state.user.value);
     const [newContent, setNewContent] = useState("");
 
     const handleTweet = () => {
@@ -12,7 +12,9 @@ function NewTweet() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                token: token,
+                token: user.token,
+                firstname: user.firstname,
+                username: user.username,
                 content: newContent,
             }),
         })

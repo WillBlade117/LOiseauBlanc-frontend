@@ -12,7 +12,7 @@
   grid-row-end: 5;
   grid-column-start: 1;
   grid-column-end: 2;
-  border-right: solid 0.5px gray;
+  border-right: solid 1px gray;
 }
 
 .write {
@@ -20,7 +20,7 @@
   grid-row-end: 2;
   grid-column-start: 2;
   grid-column-end: 3;
-  border-bottom: solid 0.5px gray;
+  border-bottom: solid 1px gray;
 }
 
 .tweet {
@@ -35,5 +35,5 @@
   grid-row-end: 5;
   grid-column-start: 3;
   grid-column-end: 4;
-  border-left: solid 0.5px gray;
+  border-left: solid 1px gray;
 }

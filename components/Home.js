@@ -5,17 +5,33 @@ import { useRouter } from 'next/router';
 import withAuth from '../components/withAuth';
 import Profil from './Profil';
 import NewTweet from './NewTweet';
+import Tweet from './Tweet';
 
 
 function Home() {
   const token = useSelector((state) => state.user.value.token);
+  const [tweets, setTweets] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    fetch("http://localhost:3000/tweets")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          setTweets(data.content);
+        }
+      });
+  }, []);
+
+  const tweet = tweets.map((data, i) => {
+    return <Tweet key={i} {...data} />;
+  });
 
   return (
     <div className={styles.home}>
       <div className={styles.profil}><Profil/></div>
       <div className={styles.write}><NewTweet/></div>
-      <div className={styles.tweet}>tweet</div>
+      <div className={styles.tweet}>{tweet}</div>
       <div className={styles.hashtag}>hashtag</div>
     </div>
   );
