@@ -2,7 +2,7 @@ import styles from '../styles/NewTweet.module.css';
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-function NewTweet() {
+function NewTweet({setRender}) {
     const token = useSelector((state) => state.user.value.token);
     const [newContent, setNewContent] = useState("");
 
@@ -20,6 +20,7 @@ function NewTweet() {
             .then((data) => {
                 if (data.result) {
                     setNewContent("");
+                    setRender(data => !data);
                 }
             });
     };

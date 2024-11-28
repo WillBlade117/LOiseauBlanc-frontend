@@ -2,6 +2,8 @@ import styles from "../styles/Tweet.module.css";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 function timeAgo(input) {
     const date = (input instanceof Date) ? input : new Date(input);
@@ -24,7 +26,27 @@ function timeAgo(input) {
     };
 };
 
-function TweetCard(props) {
+function TweetCard({ username, date, content, firstname, render, setRender }) {
+    const user = useSelector((state) => state.user.value.username);
+    const [trash, setTrash] = useState(false);
+
+    useEffect(() => {
+        if (user === username) {
+            setTrash(true);
+        }
+    }, []);
+
+    const deleteTweet = () => {
+        fetch(`http://localhost:3000/tweets/${date}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.result){
+                setRender(data => !data);
+            }
+        })
+    };
 
     return (
         <div className={styles.card}>
@@ -38,18 +60,18 @@ function TweetCard(props) {
                 />
                 <div className={styles.identifiant}>
                     <div className={styles.text} >
-                        {props.username}
+                        {username}
                     </div>
 
                     <div className={styles.pseudoDate}>
-                        @{props.firstname} - {timeAgo(props.date)}
+                        @{firstname} - {timeAgo(date)}
                     </div>
                 </div>
             </div>
-            <div className={styles.line}>{props.content}</div>
+            <div className={styles.line}>{content}</div>
             <div>
                 <FontAwesomeIcon className={styles.icon1} icon={faHeart} /><span className={styles.iconCounter}>{0}</span>
-                <FontAwesomeIcon className={styles.icon2} icon={faTrashCan} />
+                {trash && <FontAwesomeIcon onClick={() => deleteTweet()} className={styles.icon2} icon={faTrashCan} />}
             </div>
         </div>
     );

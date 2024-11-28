@@ -30,10 +30,12 @@
 .icon1{
     color: white;
     margin-right: 1%;
+    cursor: pointer;
 }
 .icon2{
     color: white;
     margin-left: 1%;
+    cursor: pointer;
 }
 .iconCounter{
     color: white;
