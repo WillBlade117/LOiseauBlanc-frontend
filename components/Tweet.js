@@ -31,10 +31,10 @@ function TweetCard(props) {
             <div className={styles.line}>
                 <Image
                     className={styles.egg}
-                    src="/profile.webp"
+                    src="/profile.PNG"
                     alt="Logo"
-                    width={50}
-                    height={50}
+                    width={40}
+                    height={40}
                 />
                 <div className={styles.identifiant}>
                     <div className={styles.text} >
@@ -42,18 +42,14 @@ function TweetCard(props) {
                     </div>
 
                     <div className={styles.pseudoDate}>
-                        @{props.firstname}
-                        <span className={styles.date}>
-
-                            {timeAgo(props.date)}
-                        </span>
+                        @{props.firstname} - {timeAgo(props.date)}
                     </div>
                 </div>
             </div>
             <div className={styles.line}>{props.content}</div>
-            <div className={styles.icon}>
-                <FontAwesomeIcon icon={faHeart} />
-                <FontAwesomeIcon icon={faTrashCan} />
+            <div>
+                <FontAwesomeIcon className={styles.icon1} icon={faHeart} /><span className={styles.iconCounter}>{0}</span>
+                <FontAwesomeIcon className={styles.icon2} icon={faTrashCan} />
             </div>
         </div>
     );

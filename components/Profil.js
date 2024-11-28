@@ -26,7 +26,7 @@ function Profil() {
                 <div className={styles.user}>
                     <Image
                         className={styles.profilphoto}
-                        src="/profile.webp"
+                        src="/profile.PNG"
                         alt="profil"
                         width={45}
                         height={40}

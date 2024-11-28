@@ -1,0 +1,40 @@
+.card{
+    display: flex;
+    flex-direction: column;
+    padding: 3%;
+    border-bottom: solid 1px gray;
+}
+.line{
+    display: flex;
+    flex-direction: row;
+    color: white;
+    margin-bottom: 2%;
+}
+.egg{
+    border-radius: 50%;
+}
+.identifiant{
+    display: flex;
+    align-items: center;
+    margin-left: 2%;
+
+}
+.text{
+    color: white;
+    font-family: 'Mont-heady';
+
+}
+.pseudoDate{
+    color: grey;
+}
+.icon1{
+    color: white;
+    margin-right: 1%;
+}
+.icon2{
+    color: white;
+    margin-left: 1%;
+}
+.iconCounter{
+    color: white;
+}
