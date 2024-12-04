@@ -17,28 +17,28 @@ function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchTweets = () => {
+    const fetchTweets = async () => {
       if (!hasMore) return; //Arrête le chargement s'il n'y a plus de tweets à charger
       setLoading(true); //Indique que le chargement est en cours
-      fetch(`http://localhost:3000/tweets?page=${page}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.result) {
-            setTweets((prevTweets) => [...prevTweets, ...data.content]);
-            if (data.content.length === 0) {
-              setHasMore(false); //Indique qu'il n'y a plus de tweets à charger
-            }
+      try {
+        const response = await fetch(`http://localhost:3000/tweets?page=${page}`);
+        const data = await response.json();
+        if (data.result) {
+          setTweets((prevTweets) => {
+            const newTweets = data.content.filter(tweet => !prevTweets.some(prevTweet => prevTweet._id === tweet._id));
+            return [...prevTweets, ...newTweets];
+          });
+          if (data.content.length === 0) {
+            setHasMore(false); //Indique qu'il n'y a plus de tweets à charger
           }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching tweets:", error);
-          setLoading(false);
-        });
+        }
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchTweets();
-  }, [page, hasMore]); //Requête de tweets à chaque changement de page ou si hasMore devient false
+  }, [page, hasMore]); //Requête de tweets à chaque changement de page ou hasMore
 
   const handleScroll = () => {
     const container = tweetsContainerRef.current;
@@ -47,6 +47,7 @@ function Home() {
     if (!isBottom || loading) {
       return; //Ne fait rien si le bas n'est pas atteint/si le chargement est déjà en cours
     }
+
     setPage((prevPage) => prevPage + 1); //Incrémente la page pour charger les tweets suivants
   };
 
@@ -54,22 +55,30 @@ function Home() {
     const container = tweetsContainerRef.current;
     container.addEventListener("scroll", handleScroll); //Ajoute l'événement de défilement au conteneur des tweets
     return () => {
-      container.removeEventListener("scroll", handleScroll); //Retire l'événement de défilement pour éviter les fuites de mémoire
+      container.removeEventListener("scroll", handleScroll); //Retire l'événement de défilement
     };
   }, [loading]);
 
-  const tweet = tweets.map((data, i) => {
-    return <Tweet key={i} {...data} setTweets={setTweets} />;
-  });
+  const tweetComponents = tweets.map((tweet) => (
+    <Tweet
+      key={tweet._id}
+      username={tweet.username}
+      date={tweet.date}
+      content={tweet.content}
+      firstname={tweet.firstname}
+      setTweets={setTweets}
+      hasLiked={tweet.hasLiked}
+    />
+  ));
 
   return (
     <div className={styles.home}>
-      <div className={styles.profil}><Profil/></div>
-      <div className={styles.write}><NewTweet setTweets={setTweets}/></div>
+      <div className={styles.profil}><Profil /></div>
+      <div className={styles.write}><NewTweet setTweets={setTweets} /></div>
       <div className={styles.tweet} ref={tweetsContainerRef}>
-        {tweet}
-      {loading && <p className={styles.footer}>Loading...</p>}
-      {!hasMore && <p className={styles.footer}>No more tweets to load.</p>}
+        {tweetComponents}
+        {loading && <p className={styles.footer}>Loading...</p>}
+        {!hasMore && <p className={styles.footer}>No more tweets to load.</p>}
       </div>
       <div className={styles.hashtag}>hashtag</div>
     </div>
@@ -77,4 +86,3 @@ function Home() {
 }
 
 export default withAuth(Home);
-
