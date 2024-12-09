@@ -26,30 +26,18 @@ function timeAgo(input) {
   }
 }
 
-function Tweet({ username, date, content, firstname, setTweets, hasLiked }) {
+function Tweet({ username, date, content, firstname, setTweets, hasLiked, isLiked }) {
   const user = useSelector((state) => state.user.value.username);
   const token = useSelector((state) => state.user.value.token);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(isLiked); // Utilisez l'état de like passé en props
   const [trash, setTrash] = useState(false);
   const [likeCount, setLikeCount] = useState(hasLiked.length); // Ajoutez un état pour le compteur de likes
 
-  // useEffect(() => {
-  //   if (user === username) {
-  //     setTrash(true);
-  //   }
-    // Vérifie si le tweet est liké au chargement
-  //   fetch(`http://localhost:3000/tweets/hasLike/${date}`, {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ token }),
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     if (data.result) {
-  //       setLiked(data.liked);
-  //     }
-  //   });
-  // }, [user, username, date, token]);
+  useEffect(() => {
+    if (user === username) {
+      setTrash(true);
+    }
+  }, [user, username]);
 
   const handleLike = () => {
     fetch(`http://localhost:3000/tweets/like/${date}`, {
@@ -64,7 +52,7 @@ function Tweet({ username, date, content, firstname, setTweets, hasLiked }) {
         setLikeCount(likeCount + 1); // Incrémentez le compteur de likes
         setTweets((prevTweets) =>
           prevTweets.map((tweet) =>
-            tweet.date === date ? { ...tweet, hasLiked: [...tweet.hasLiked, user] } : tweet
+            tweet.date === date ? { ...tweet, hasLiked: [...tweet.hasLiked, user], isLiked: true } : tweet
           )
         );
       }
@@ -84,7 +72,7 @@ function Tweet({ username, date, content, firstname, setTweets, hasLiked }) {
         setLikeCount(likeCount - 1); // Décrémentez le compteur de likes
         setTweets((prevTweets) =>
           prevTweets.map((tweet) =>
-            tweet.date === date ? { ...tweet, hasLiked: tweet.hasLiked.filter((username) => username !== user) } : tweet
+            tweet.date === date ? { ...tweet, hasLiked: tweet.hasLiked.filter((username) => username !== user), isLiked: false } : tweet
           )
         );
       }

@@ -1,0 +1,40 @@
+.title {
+    color: white;
+    font-size: 28px;
+    font-family: 'Mont-heady';
+}
+
+.hashtagsList {
+    color: white;
+    background-color: rgb(38, 45, 59);
+    margin: 5%;
+    border-radius: 10px;
+    padding: 2%;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    margin: 16px;
+}
+
+.hashtagTerm {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.hashtagCount {
+    font-size: 11px;
+    color: grey;
+    margin-top: 4px;
+}
+
+.loading {
+    font-size: 18px;
+    color: #666;
+}
+
+.error {
+    font-size: 18px;
+    color: red;
+}

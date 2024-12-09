@@ -6,6 +6,7 @@ import withAuth from '../components/withAuth';
 import Profil from './Profil';
 import NewTweet from './NewTweet';
 import Tweet from './Tweet';
+import Hashtag from './Hashtag';
 
 function Home() {
   const token = useSelector((state) => state.user.value.token);
@@ -21,11 +22,11 @@ function Home() {
       if (!hasMore) return; //Arrête le chargement s'il n'y a plus de tweets à charger
       setLoading(true); //Indique que le chargement est en cours
       try {
-        const response = await fetch(`http://localhost:3000/tweets?page=${page}`);
+        const response = await fetch(`http://localhost:3000/tweets?page=${page}&token=${token}`);
         const data = await response.json();
         if (data.result) {
           setTweets((prevTweets) => {
-            const newTweets = data.content.filter(tweet => !prevTweets.some(prevTweet => prevTweet._id === tweet._id));
+            const newTweets = data.content.filter(tweet => !prevTweets.some(prevTweet => prevTweet.date === tweet.date));
             return [...prevTweets, ...newTweets];
           });
           if (data.content.length === 0) {
@@ -38,7 +39,7 @@ function Home() {
     };
 
     fetchTweets();
-  }, [page, hasMore]); //Requête de tweets à chaque changement de page ou hasMore
+  }, [page, hasMore, token]); //Requête de tweets à chaque changement de page ou hasMore
 
   const handleScroll = () => {
     const container = tweetsContainerRef.current;
@@ -68,6 +69,7 @@ function Home() {
       firstname={tweet.firstname}
       setTweets={setTweets}
       hasLiked={tweet.hasLiked}
+      isLiked={tweet.isLiked} // Passez l'état de like
     />
   ));
 
@@ -80,7 +82,7 @@ function Home() {
         {loading && <p className={styles.footer}>Loading...</p>}
         {!hasMore && <p className={styles.footer}>No more tweets to load.</p>}
       </div>
-      <div className={styles.hashtag}>hashtag</div>
+      <div className={styles.hashtag}><Hashtag/></div>
     </div>
   );
 }
